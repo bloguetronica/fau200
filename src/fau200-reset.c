@@ -1,5 +1,5 @@
-/* FAU200 Reset Command - Version 1.0 for Debian Linux
-   Copyright (c) 2018 Samuel Lourenço
+/* FAU200 Reset Command - Version 1.1 for Debian Linux
+   Copyright (c) 2018-2019 Samuel Lourenço
 
    This program is free software: you can redistribute it and/or modify it
    under the terms of the GNU General Public License as published by the Free
@@ -23,22 +23,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <libusb-1.0/libusb.h>
+#include "fau200-core.h"
 #include "libusb-extra.h"
-
-// Defines
-#define TR_TIMEOUT 100  // Transfer timeout in milliseconds
-
-// Function prototypes
-void reset(libusb_device_handle *devhandle);
-
-// Global variables
-int err_level = EXIT_SUCCESS;  // This variable is manipulated by other functions besides main()!
 
 int main(int argc, char **argv)
 {
+    err_level = EXIT_SUCCESS;  // Note that this variable is declared externally!
     libusb_context *context;
-    libusb_device_handle *devhandle;
-    bool kernel_attached = false;
     if (libusb_init(&context) != 0)  // Initialize libusb. In case of failure
     {
         fprintf(stderr, "Error: Could not initialize libusb.\n");
@@ -46,6 +37,7 @@ int main(int argc, char **argv)
     }
     else  // If libusb is initialized
     {
+        libusb_device_handle *devhandle;
         if (argc < 2)  // If the program was called without arguments
             devhandle = libusb_open_device_with_vid_pid(context, 0x10C4, 0x8C35);  // Open a device and get the device handle
         else  // Serial number was specified as argument
@@ -57,6 +49,7 @@ int main(int argc, char **argv)
         }
         else  // If the device is successfully opened and a handle obtained
         {
+            bool kernel_attached = false;
             if (libusb_kernel_driver_active(devhandle, 0) != 0)  // If a kernel driver is active on the interface
             {
                 libusb_detach_kernel_driver(devhandle, 0);  // Detach the kernel driver
@@ -81,13 +74,4 @@ int main(int argc, char **argv)
         libusb_exit(context);  // Deinitialize libusb
     }
     return err_level;
-}
-
-void reset(libusb_device_handle *devhandle)  // Issues a reset to the CP2130, which in effect resets the entire device
-{
-    if (libusb_control_transfer(devhandle, 0x40, 0x10, 0x0000, 0x0000, NULL, 0, TR_TIMEOUT) != 0)
-    {
-        fprintf(stderr, "Error: Failed control transfer (0x40, 0x10).\n");
-        err_level = EXIT_FAILURE;
-    }
 }

@@ -6,7 +6,11 @@ apt-get -qq install build-essential
 apt-get -qq install libusb-1.0-0-dev
 echo Copying source code files...
 mkdir -p /usr/local/src/fau200
+cp -f src/common.c /usr/local/src/fau200/.
+cp -f src/common.h /usr/local/src/fau200/.
 cp -f src/fau200-clear.c /usr/local/src/fau200/.
+cp -f src/fau200-core.c /usr/local/src/fau200/.
+cp -f src/fau200-core.h /usr/local/src/fau200/.
 cp -f src/fau200-list.c /usr/local/src/fau200/.
 cp -f src/fau200-lockotp.c /usr/local/src/fau200/.
 cp -f src/fau200-reset.c /usr/local/src/fau200/.

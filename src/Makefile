@@ -1,5 +1,5 @@
 # Makefile for all FAU200 commands, Debian Linux (GCC)
-# Copyright (c) 2018 Samuel Lourenço
+# Copyright (c) 2018-2019 Samuel Lourenço
 
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -22,14 +22,14 @@ CC = gcc
 CFLAGS = -O2 -std=gnu99 -Wall -pedantic
 LDFLAGS = -s
 LDLIBS = -lusb-1.0
-OBJECTS = libusb-extra
+OBJECTS = common.o fau200-core.o libusb-extra.o
 TARGETS = fau200-clear fau200-list fau200-lockotp fau200-reset fau200-volt
 
 .PHONY: all clean install uninstall
 
 all: $(TARGETS)
 
-$(TARGETS): % : %.o $(OBJECTS).o
+$(TARGETS): % : %.o $(OBJECTS)
 	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 %.o: %.c

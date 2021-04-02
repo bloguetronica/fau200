@@ -1,5 +1,5 @@
-/* Extra functions for libusb - Version 1.1
-   Copyright (c) 2018 Samuel Lourenço
+/* Common functions - Version 1.1
+   Copyright (c) 2018-2019 Samuel Lourenço
 
    This library is free software: you can redistribute it and/or modify it
    under the terms of the GNU Lesser General Public License as published by
@@ -18,13 +18,13 @@
    Please feel free to contact me via e-mail: samuel.fmlourenco@gmail.com */
 
 
-#ifndef LIBUSB_EXTRA_H_
-#define LIBUSB_EXTRA_H_
+#ifndef COMMON_H_
+#define COMMON_H_
 
 // Includes
-#include <libusb-1.0/libusb.h>
+#include <stdbool.h>
 
 // Function prototypes
-libusb_device_handle *libusb_open_device_with_vid_pid_serial(libusb_context *context, uint16_t vid, uint16_t pid, unsigned char *serial);
+bool isnumber(char *value);
 
 #endif
