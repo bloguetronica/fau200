@@ -1,5 +1,5 @@
-/* FAU200 List Command - Version 1.0 for Debian Linux
-   Copyright (c) 2018 Samuel Lourenço
+/* FAU200 List Command - Version 1.1 for Debian Linux
+   Copyright (c) 2018-2019 Samuel Lourenço
 
    This program is free software: you can redistribute it and/or modify it
    under the terms of the GNU General Public License as published by the Free
@@ -19,20 +19,14 @@
 
 
 // Includes
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <libusb-1.0/libusb.h>
 
 int main(void)
 {
+    int err_level = EXIT_SUCCESS;
     libusb_context *context;
-    libusb_device **devs;
-    libusb_device_handle *devhandle;
-    ssize_t devlist;
-    struct libusb_device_descriptor desc;
-    unsigned char str_desc[256];
-    int counter = 0, err_level = EXIT_SUCCESS;
     if (libusb_init(&context) != 0)  // Initialize libusb. In case of failure
     {
         fprintf(stderr, "Error: Could not initialize libusb.\n");
@@ -40,7 +34,8 @@ int main(void)
     }
     else  // If libusb is initialized
     {
-        devlist = libusb_get_device_list(context, &devs);  // Get a device list
+        libusb_device **devs;
+        ssize_t devlist = libusb_get_device_list(context, &devs);  // Get a device list
         if (devlist < 0)  // If the previous operation fails to get a device list
         {
             fprintf(stderr, "Error: Failed to retrieve a list of devices.\n");
@@ -48,14 +43,18 @@ int main(void)
         }
         else
         {
-            for (ssize_t i = 0; i < devlist; i++)  // Run through all listed devices
+            size_t counter = 0;
+            for (ssize_t i = 0; i < devlist; ++i)  // Run through all listed devices
             {
+                struct libusb_device_descriptor desc;
                 if (libusb_get_device_descriptor(devs[i], &desc) == 0 && desc.idVendor == 0x10C4 && desc.idProduct == 0x8C35)  // If the device descriptor is retrieved, and both VID and PID correspond to the FAU200 Power Supply
                 {
-                    counter++;  // Increment the counter, since a suitable device was found
-                    printf("%d\t", counter);  // Print the item number
+                    libusb_device_handle *devhandle;
+                    ++counter;  // Increment the counter, since a suitable device was found
+                    printf("%ld\t", counter);  // Print the item number
                     if (libusb_open(devs[i], &devhandle) == 0)  // Open the listed device. If successfull
                     {
+                        unsigned char str_desc[256];
                         libusb_get_string_descriptor_ascii(devhandle, desc.iSerialNumber, str_desc, sizeof(str_desc));  // Get the serial number string in ASCII format
                         printf("%s", str_desc);  // Print the serial number string
                         libusb_close(devhandle);  // Close the device

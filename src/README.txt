@@ -1,6 +1,10 @@
 This directory contains all source code files required for compiling the
 commands for FAU200 Power Supply. A list of relevant files follows:
+– common.c;
+– common.h;
 – fau200-clear.c;
+– fau200-core.c;
+– fau200-core.h;
 – fau200-list.c;
 – fau200-lockotp.c;
 – fau200-reset.c;
