@@ -1,0 +1,23 @@
+.TH FAU200-LOCKOTP 1
+.SH NAME
+fau200-lockotp \- lock FAU200 Power Supply OTP ROM
+.SH SYNOPSIS
+.B fau200-lockotp
+.I SERIALNUMBER
+.SH DESCRIPTION
+.B fau200-lockotp
+locks the power supply OTP ROM, preventing further (and possibly unwanted)
+changes. It is important to lock all fields on the OTP ROM, since any changes
+to untouched fields will be irreversible and can impair the device. Note that
+you must specify the serial number of the target device.
+.SH EXAMPLE
+.TP
+.B fau200-lockotp F20-00NQG2W7
+Lock the OTP ROM of device with serial number F20-00NQG2W7.
+.SH "EXIT STATUS"
+Exits with a status of zero in case of success. Returns one should an error
+occur, or two in case of bad input.
+.SH AUTHOR
+Samuel Lourenço (samuel.fmlourenco@gmail.com).
+.SH "SEE ALSO"
+fau200-clear(1), fau200-list(1), fau200-reset(1), fau200-volt(1)

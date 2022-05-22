@@ -1,0 +1,18 @@
+.TH FAU200-LIST 1
+.SH NAME
+fau200-list \- list connected FAU200 Power Supply devices
+.SH SYNOPSIS
+.B fau200-list
+.SH DESCRIPTION
+.B fau200-list
+lists all power supply devices that are currently connected. Note that the
+first device on the list is always the one addressed by default. Hence, when
+applicable, a command invoked without any serial number specified will always
+take effect on that device.
+.SH "EXIT STATUS"
+Exits with a status of zero in case of success. Returns one should an error
+occur.
+.SH AUTHOR
+Samuel Lourenço (samuel.fmlourenco@gmail.com).
+.SH "SEE ALSO"
+fau200-clear(1), fau200-lockotp(1), fau200-reset(1), fau200-volt(1)
