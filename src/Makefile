@@ -25,7 +25,7 @@ CXXFLAGS = -O2 -std=c++11 -Wall -pedantic
 LDFLAGS = -s
 LDLIBS = -lusb-1.0
 OBJECTS = cp2130.o error.o fau200device.o libusb-extra.o utils.o
-TARGETS = fau200-list fau200-lockotp fau200-reset fau200-volt
+TARGETS = fau200-clear fau200-list fau200-lockotp fau200-reset fau200-volt
 
 .PHONY: all clean install uninstall
 
