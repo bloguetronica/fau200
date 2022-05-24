@@ -1,0 +1,26 @@
+.TH FAU200-VOLT 1
+.SH NAME
+fau200-volt \- set FAU200 Power Supply voltage to a given value
+.SH SYNOPSIS
+.B fau200-volt
+.I VOLTAGE
+.RI [ SERIALNUMBER ]
+.SH DESCRIPTION
+.B fau200-volt
+sets the output voltage to the value given in the argument. This value is
+expressed in V and must be between 0 and 4.095, inclusive. Decimal values are
+accepted.
+
+Specifying a serial number is optional.
+.SH EXAMPLE
+.TP
+.B fau200-volt 2.15
+Set the output voltage to 2.15V.
+.SH "EXIT STATUS"
+Exits with a status of zero in case of success. Returns one should an error
+occur, or two in case of bad input.
+.SH AUTHOR
+Samuel Lourenço (samuel.fmlourenco@gmail.com).
+.SH "SEE ALSO"
+fau200-clear(1), fau200-info(1), fau200-list(1), fau200-lockotp(1),
+fau200-reset(1)

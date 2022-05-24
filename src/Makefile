@@ -1,45 +1,67 @@
 # Makefile for all FAU200 commands, Debian Linux (GCC)
-# Copyright (c) 2018-2019 Samuel Lourenço
+# Copyright (c) 2018-2022 Samuel Lourenço
 
-# This program is free software: you can redistribute it and/or modify it
-# under the terms of the GNU General Public License as published by the Free
-# Software Foundation, either version 3 of the License, or (at your option)
-# any later version.
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 
-# This program is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-# more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 
-# You should have received a copy of the GNU General Public License along
-# with this program.  If not, see <https://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 # Please feel free to contact me via e-mail: samuel.fmlourenco@gmail.com
 
 
+prefix = /usr/local
+
 CC = gcc
-CFLAGS = -O2 -std=gnu99 -Wall -pedantic
+CFLAGS = -O2 -std=c11 -Wall -pedantic
+CXX = g++
+CXXFLAGS = -O2 -std=c++11 -Wall -pedantic
 LDFLAGS = -s
 LDLIBS = -lusb-1.0
-OBJECTS = common.o fau200-core.o libusb-extra.o
-TARGETS = fau200-clear fau200-list fau200-lockotp fau200-reset fau200-volt
+MANPAGES = fau200-clear.1 fau200-info.1 fau200-list.1 fau200-lockotp.1 fau200-reset.1 fau200-volt.1
+MANPAGESGZ = $(MANPAGES:=.gz)
+MKDIR = mkdir -p
+MV = mv -f
+OBJECTS = cp2130.o error.o fau200device.o libusb-extra.o utils.o
+RMDIR = rmdir --ignore-fail-on-non-empty
+TARGETS = fau200-clear fau200-info fau200-list fau200-lockotp fau200-reset fau200-volt
 
 .PHONY: all clean install uninstall
 
 all: $(TARGETS)
 
 $(TARGETS): % : %.o $(OBJECTS)
-	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
+	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<
 
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $<
+
 clean:
 	$(RM) *.o $(TARGETS)
 
-install:
-	mv -f $(TARGETS) /usr/local/bin/.
+install: all install-bin install-man
 
-uninstall:
-	cd /usr/local/bin && $(RM) $(TARGETS)
+install-bin:
+	$(MKDIR) $(DESTDIR)$(prefix)/bin && $(MV) $(TARGETS) $(DESTDIR)$(prefix)/bin/.
+
+install-man:
+	cd man && gzip -fknv9 $(MANPAGES) && $(MKDIR) $(DESTDIR)$(prefix)/share/man/man1 && $(MV) $(MANPAGESGZ) $(DESTDIR)$(prefix)/share/man/man1/.
+
+uninstall: uninstall-man uninstall-bin clean
+
+uninstall-bin:
+	cd $(DESTDIR)$(prefix)/bin && $(RM) $(TARGETS)
+
+uninstall-man:
+	if [ -d $(DESTDIR)$(prefix)/share/man/man1 ]; then cd $(DESTDIR)$(prefix)/share/man/man1 && $(RM) $(MANPAGESGZ) && $(RMDIR) $(DESTDIR)$(prefix)/share/man/man1; fi
