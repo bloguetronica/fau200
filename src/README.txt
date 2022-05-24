@@ -34,7 +34,7 @@ you prefer to install after rebuilding.
 
 It may be necessary to undo any previous operations. Invoking "make clean"
 will delete all object code generated (binaries included) during earlier
-compilations. You can also invoke "sudo make uninstall" to unistall the
+compilations. You can also invoke "sudo make uninstall" to uninstall the
 binaries.
 
 P.S.:
