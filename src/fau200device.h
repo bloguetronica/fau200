@@ -35,8 +35,8 @@ private:
 
 public:
     // Class definitions
-    static const uint16_t VID = 0x10C4;                          // USB vendor ID
-    static const uint16_t PID = 0x8C35;                          // USB product ID
+    static const uint16_t VID = 0x10c4;                          // USB vendor ID
+    static const uint16_t PID = 0x8c35;                          // USB product ID
     static const int SUCCESS = CP2130::SUCCESS;                  // Returned by open() if successful
     static const int ERROR_INIT = CP2130::ERROR_INIT;            // Returned by open() in case of a libusb initialization failure
     static const int ERROR_NOT_FOUND = CP2130::ERROR_NOT_FOUND;  // Returned by open() if the device was not found
@@ -51,7 +51,6 @@ public:
     bool disconnected() const;
     bool isOpen() const;
 
-    void attach(int &errcnt, std::string &errstr);
     void close();
     CP2130::SiliconVersion getCP2130SiliconVersion(int &errcnt, std::string &errstr);
     std::string getHardwareRevision(int &errcnt, std::string &errstr);
