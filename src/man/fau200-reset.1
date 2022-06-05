@@ -1,0 +1,20 @@
+.TH FAU200-RESET 1
+.SH NAME
+fau200-reset \- reset FAU200 Power Supply
+.SH SYNOPSIS
+.B fau200-reset
+.RI [ SERIALNUMBER ]
+.SH DESCRIPTION
+.B fau200-reset
+issues a reset command to the power supply, causing it to power cycle. After
+reset, the power supply will output 0V.
+
+Specifying a serial number is optional.
+.SH "EXIT STATUS"
+Exits with a status of zero in case of success. Returns one should an error
+occur.
+.SH AUTHOR
+Samuel Lourenço (samuel.fmlourenco@gmail.com).
+.SH "SEE ALSO"
+fau200-clear(1), fau200-info(1), fau200-list(1), fau200-lockotp(1),
+fau200-volt(1)
