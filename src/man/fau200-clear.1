@@ -1,0 +1,20 @@
+.TH FAU200-CLEAR 1
+.SH NAME
+fau200-clear \- clear FAU200 Power Supply settings
+.SH SYNOPSIS
+.B fau200-clear
+.RI [ SERIALNUMBER ]
+.SH DESCRIPTION
+.B fau200-clear
+clears all registers, so that the power supply is set to a known state. Output
+voltage is set to 0V.
+
+Specifying a serial number is optional.
+.SH "EXIT STATUS"
+Exits with a status of zero in case of success. Returns one should an error
+occur.
+.SH AUTHOR
+Samuel Lourenço (samuel.fmlourenco@gmail.com).
+.SH "SEE ALSO"
+fau200-info(1), fau200-list(1), fau200-lockotp(1), fau200-reset(1),
+fau200-volt(1)

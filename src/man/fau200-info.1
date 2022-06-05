@@ -1,0 +1,21 @@
+.TH FAU200-INFO 1
+.SH NAME
+fau200-info \- show information about FAU200 Power Supply
+.SH SYNOPSIS
+.B fau200-info
+.RI [ SERIALNUMBER ]
+.SH DESCRIPTION
+.B fau200-info
+shows information about the power supply device, namely the manufacturer and
+product names, the serial number, the hardware revision and the maximum
+current consumption.
+
+Specifying a serial number is optional.
+.SH "EXIT STATUS"
+Exits with a status of zero in case of success. Returns one should an error
+occur.
+.SH AUTHOR
+Samuel Lourenço (samuel.fmlourenco@gmail.com).
+.SH "SEE ALSO"
+fau200-clear(1), fau200-list(1), fau200-lockotp(1), fau200-reset(1),
+fau200-volt(1)
